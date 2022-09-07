@@ -4,6 +4,7 @@ from tkinter.filedialog import askopenfilename,asksaveasfilename
 import tkinter.messagebox as tmsg
 import os
 import speech_recognition as sr
+import pyttsx3
 
 engine = pyttsx3.init('sapi5')
 voices = engine.getProperty('voices')
