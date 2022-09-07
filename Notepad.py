@@ -3,6 +3,11 @@ from PIL import Image,ImageTk
 from tkinter.filedialog import askopenfilename,asksaveasfilename
 import tkinter.messagebox as tmsg
 import os
+import speech_recognition as sr
+
+engine = pyttsx3.init('sapi5')
+voices = engine.getProperty('voices')
+engine.setProperty('voice', voices[1].id)
 
 
 def newFile():
@@ -93,8 +98,30 @@ def aboutFile():
                            "\n\n\nTitle            :      F Pade"
                            "\n\nCredited By    :     Syed Faisal Abrar\n\n"
                            "Published On :      28 July, 2022\n")
+    
+def speak(audio):
+    engine.say(audio)
+    engine.runAndWait()
+    
 def audioFunc():
-    tmsg.showinfo("Comin Soon !","Working On It.\nThis feature will be added shortly. Thanks! ")
+    speak("Speak to text activated.")
+    
+    while(True):
+        r = sr.Recognizer()
+        with sr.Microphone() as source:
+            r.pause_threshold = 1
+            # r.energy_threshold = 300
+            audio = r.listen(source)
+
+        try:
+            print("Recognizing ............")
+            query = r.recognize_google(audio, language='en')
+            #speech in query can be written on textarea.
+            print("query")
+
+        except Exception as e:
+            speak("Say that again please.")
+            return "None"
 
 root = Tk()
 root.geometry("950x600")
